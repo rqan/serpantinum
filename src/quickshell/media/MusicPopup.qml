@@ -1866,7 +1866,6 @@ Item {
                 }
             }
         }
-    }
 
     component PresetButton : ClickButton {
         property string name: ""
