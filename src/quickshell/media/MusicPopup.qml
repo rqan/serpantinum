@@ -1796,6 +1796,7 @@ Item {
 
                 // --- NEW LYRICS SECTION ---
                 Item {
+                    id: lyricsContainer
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     Layout.margins: root.s(10)
@@ -1810,9 +1811,9 @@ Item {
                             if (root.currentLyrics) {
                                 try {
                                     let arr = JSON.parse(root.currentLyrics);
-                                    parent.lyricsData = arr;
+                                    lyricsContainer.lyricsData = arr;
                                 } catch(e) {
-                                    parent.lyricsData = [{"time": 0, "text": root.currentLyrics}];
+                                    lyricsContainer.lyricsData = [{"time": 0, "text": root.currentLyrics}];
                                 }
                             }
                         }
@@ -1822,7 +1823,7 @@ Item {
                         id: lyricsList
                         anchors.fill: parent
                         spacing: root.s(22)
-                        model: parent.lyricsData
+                        model: lyricsContainer.lyricsData
                         
                         property real currentTime: (root.targetPlayer && root.targetPlayer.isPlaying) ? (root.targetPlayer.position / 1000000.0) : 0
                         
