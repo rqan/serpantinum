@@ -1800,22 +1800,20 @@ Item {
                     Layout.fillHeight: true
                     Layout.margins: root.s(10)
                     clip: true
-
-                    // FORCE WIDTH FOR DEBUGGING IF NEEDED
                     Layout.minimumWidth: root.s(300)
 
+                    property var lyricsData: []
 
-                    Rectangle { anchors.fill: parent; color: "red"; opacity: 0.3 } ListModel { id: lyricsModel }
-                    
-                    Component.onCompleted: {
-                        if (root.currentLyrics) {
-                            try {
-                                let arr = JSON.parse(root.currentLyrics);
-                                for (let i = 0; i < arr.length; i++) {
-                                    lyricsModel.append(arr[i]);
+                    Connections {
+                        target: root
+                        function onCurrentLyricsChanged() {
+                            if (root.currentLyrics) {
+                                try {
+                                    let arr = JSON.parse(root.currentLyrics);
+                                    parent.lyricsData = arr;
+                                } catch(e) {
+                                    parent.lyricsData = [{"time": 0, "text": root.currentLyrics}];
                                 }
-                            } catch(e) {
-                                lyricsModel.append({"time": 0, "text": root.currentLyrics});
                             }
                         }
                     }
@@ -1824,41 +1822,24 @@ Item {
                         id: lyricsList
                         anchors.fill: parent
                         spacing: root.s(22)
-                        model: lyricsModel
+                        model: parent.lyricsData
                         
                         property real currentTime: (root.targetPlayer && root.targetPlayer.isPlaying) ? (root.targetPlayer.position / 1000000.0) : 0
                         
-                        Connections {
-                            target: root
-                            function onCurrentLyricsChanged() {
-                                lyricsModel.clear();
-                                if (root.currentLyrics) {
-                                    try {
-                                        let arr = JSON.parse(root.currentLyrics);
-                                        for (let i = 0; i < arr.length; i++) {
-                                            lyricsModel.append(arr[i]);
-                                        }
-                                    } catch(e) {
-                                        lyricsModel.append({"time": 0, "text": root.currentLyrics});
-                                    }
-                                }
-                            }
-                        }
-                        
                         delegate: Text {
                             width: lyricsList.width
-                            text: model.text !== undefined ? model.text : ""
+                            text: modelData ? (modelData.text || "") : ""
                             wrapMode: Text.WordWrap
                             horizontalAlignment: Text.AlignHCenter
                             font.pixelSize: isCurrent ? root.s(22) : root.s(18)
                             font.bold: isCurrent
                             
                             property bool isCurrent: {
-                                if (lyricsModel.count === 0) return false;
+                                if (!lyricsList.model || lyricsList.model.length === 0) return false;
                                 let t = lyricsList.currentTime;
-                                if (t < model.time) return false;
-                                if (index + 1 < lyricsModel.count) {
-                                    if (t >= lyricsModel.get(index + 1).time) return false;
+                                if (!modelData || t < modelData.time) return false;
+                                if (index + 1 < lyricsList.model.length) {
+                                    if (t >= lyricsList.model[index + 1].time) return false;
                                 }
                                 return true;
                             }
