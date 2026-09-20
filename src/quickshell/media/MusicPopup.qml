@@ -1793,7 +1793,6 @@ Item {
                     }
                 }
             }
-        }
 
                 // --- NEW LYRICS SECTION ---
                 Item {
@@ -1861,6 +1860,7 @@ Item {
                 }
             }
         }
+    }
 
     component PresetButton : ClickButton {
         property string name: ""
