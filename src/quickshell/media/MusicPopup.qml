@@ -222,17 +222,7 @@ Item {
 
     property string currentLyrics: "Mencari lirik..."
     onCurrentLyricsChanged: {
-        if (typeof lyricsModel !== "undefined" && lyricsModel !== null) {
-            lyricsModel.clear();
-            try {
-                let arr = JSON.parse(currentLyrics);
-                for (let i = 0; i < arr.length; i++) {
-                    lyricsModel.append(arr[i]);
-                }
-            } catch(e) {
-                lyricsModel.append({"time": 0, "text": currentLyrics || "Tidak ada lirik."});
-            }
-        }
+        // Moved logic to the ListView itself
     }
     Process {
         id: lyricsFetcher
@@ -241,6 +231,7 @@ Item {
         stdout: StdioCollector {
             onStreamFinished: {
                 let txt = this.text.trim();
+                console.log("LYRICS RECEIVED: ", txt);
                 if (txt !== "") root.currentLyrics = txt;
                 else root.currentLyrics = "Lirik tidak ditemukan.";
             }
@@ -267,6 +258,7 @@ Item {
         stdout: StdioCollector {
             onStreamFinished: {
                 let txt = this.text.trim();
+                console.log("LYRICS RECEIVED: ", txt);
                 if (txt !== "") {
                     try {
                         let d = JSON.parse(txt);
@@ -1809,6 +1801,10 @@ Item {
                     Layout.margins: root.s(10)
                     clip: true
 
+                    // FORCE WIDTH FOR DEBUGGING IF NEEDED
+                    Layout.minimumWidth: root.s(300)
+
+
                     Rectangle { anchors.fill: parent; color: "red"; opacity: 0.3 } ListModel { id: lyricsModel }
                     
                     Component.onCompleted: {
@@ -1832,9 +1828,26 @@ Item {
                         
                         property real currentTime: (root.targetPlayer && root.targetPlayer.isPlaying) ? (root.targetPlayer.position / 1000000.0) : 0
                         
+                        Connections {
+                            target: root
+                            function onCurrentLyricsChanged() {
+                                lyricsModel.clear();
+                                if (root.currentLyrics) {
+                                    try {
+                                        let arr = JSON.parse(root.currentLyrics);
+                                        for (let i = 0; i < arr.length; i++) {
+                                            lyricsModel.append(arr[i]);
+                                        }
+                                    } catch(e) {
+                                        lyricsModel.append({"time": 0, "text": root.currentLyrics});
+                                    }
+                                }
+                            }
+                        }
+                        
                         delegate: Text {
                             width: lyricsList.width
-                            text: model.text
+                            text: model.text !== undefined ? model.text : ""
                             wrapMode: Text.WordWrap
                             horizontalAlignment: Text.AlignHCenter
                             font.pixelSize: isCurrent ? root.s(22) : root.s(18)

@@ -28,4 +28,4 @@ def get_lyrics():
         return json.dumps([{"time": 0, "text": "No lyrics found."}])
 
 if __name__ == "__main__":
-    print(get_lyrics())
+    import sys; sys.stdout.write(get_lyrics())
