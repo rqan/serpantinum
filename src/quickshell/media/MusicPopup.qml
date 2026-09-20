@@ -711,6 +711,7 @@ Item {
 
                 ColumnLayout {
                     Layout.preferredWidth: root.s(960) - root.s(36)
+                    Layout.maximumWidth: root.s(960) - root.s(36)
                     Layout.fillHeight: true
                     spacing: 0
 
