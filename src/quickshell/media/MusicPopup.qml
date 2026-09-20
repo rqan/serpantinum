@@ -1809,7 +1809,7 @@ Item {
                     Layout.margins: root.s(10)
                     clip: true
 
-                    ListModel { id: lyricsModel }
+                    Rectangle { anchors.fill: parent; color: "red"; opacity: 0.3 } ListModel { id: lyricsModel }
                     
                     Component.onCompleted: {
                         if (root.currentLyrics) {
@@ -1833,7 +1833,7 @@ Item {
                         property real currentTime: (root.targetPlayer && root.targetPlayer.isPlaying) ? (root.targetPlayer.position / 1000000.0) : 0
                         
                         delegate: Text {
-                            width: ListView.view.width
+                            width: lyricsList.width
                             text: model.text
                             wrapMode: Text.WordWrap
                             horizontalAlignment: Text.AlignHCenter
