@@ -200,7 +200,7 @@ Item {
     }
 
     Timer {
-        interval: 1000
+        interval: 100
         repeat: true
         running: root.visible && root.hasTargetPlayer && root.targetPlayer.isPlaying
         onTriggered: {
@@ -1825,7 +1825,7 @@ Item {
                         spacing: root.s(22)
                         model: lyricsContainer.lyricsData
                         
-                        property real currentTime: root.currentLivePosition
+                        property real currentTime: root.currentLivePosition + 0.4
                         
                         delegate: Text {
                             width: lyricsList.width
