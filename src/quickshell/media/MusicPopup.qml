@@ -710,8 +710,8 @@ Item {
                 spacing: root.s(30)
 
                 ColumnLayout {
-                    Layout.preferredWidth: root.s(960) - root.s(36)
-                    Layout.maximumWidth: root.s(960) - root.s(36)
+                    Layout.preferredWidth: root.s(650) - root.s(36)
+                    Layout.maximumWidth: root.s(650) - root.s(36)
                     Layout.fillHeight: true
                     spacing: 0
 
@@ -1825,7 +1825,7 @@ Item {
                         spacing: root.s(22)
                         model: lyricsContainer.lyricsData
                         
-                        property real currentTime: (root.targetPlayer && root.targetPlayer.isPlaying) ? (root.targetPlayer.position / 1000000.0) : 0
+                        property real currentTime: root.currentLivePosition
                         
                         delegate: Text {
                             width: lyricsList.width
