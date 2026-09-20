@@ -221,6 +221,19 @@ Item {
     property string localDeviceName: "Speaker"
 
     property string currentLyrics: "Mencari lirik..."
+    onCurrentLyricsChanged: {
+        if (typeof lyricsModel !== "undefined" && lyricsModel !== null) {
+            lyricsModel.clear();
+            try {
+                let arr = JSON.parse(currentLyrics);
+                for (let i = 0; i < arr.length; i++) {
+                    lyricsModel.append(arr[i]);
+                }
+            } catch(e) {
+                lyricsModel.append({"time": 0, "text": currentLyrics || "Tidak ada lirik."});
+            }
+        }
+    }
     Process {
         id: lyricsFetcher
         command: ["python3", "/home/focarix/.config/serpantinum/src/scripts/get_lyrics.py"]
@@ -486,10 +499,7 @@ Item {
 
     Item {
         id: mainWrapper
-        width: root.s(960)
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        anchors.fill: parent
         
         scale: 0.92 + (0.08 * root.introMain)
         opacity: root.introMain
@@ -702,10 +712,15 @@ Item {
                 }
             }
 
-            ColumnLayout {
+            RowLayout {
                 anchors.fill: parent
                 anchors.margins: root.s(18)
-                spacing: 0
+                spacing: root.s(30)
+
+                ColumnLayout {
+                    Layout.preferredWidth: root.s(960) - root.s(36)
+                    Layout.fillHeight: true
+                    spacing: 0
 
                 RowLayout {
                     Layout.fillWidth: true
@@ -1786,38 +1801,68 @@ Item {
                 }
             }
         }
-    }
 
-    // --- LYRICS SECTION ---
-    Item {
-        id: lyricsWrapper
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        anchors.left: mainWrapper.right
-        anchors.leftMargin: root.s(5)
+                // --- NEW LYRICS SECTION ---
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.margins: root.s(10)
+                    clip: true
 
-        opacity: root.introMain
-        scale: 0.92 + (0.08 * root.introMain)
-        transform: Translate { y: root.s(12) * (1 - root.introMain) }
+                    ListModel { id: lyricsModel }
+                    
+                    Component.onCompleted: {
+                        if (root.currentLyrics) {
+                            try {
+                                let arr = JSON.parse(root.currentLyrics);
+                                for (let i = 0; i < arr.length; i++) {
+                                    lyricsModel.append(arr[i]);
+                                }
+                            } catch(e) {
+                                lyricsModel.append({"time": 0, "text": root.currentLyrics});
+                            }
+                        }
+                    }
 
-        Rectangle {
-            anchors.fill: parent
-            anchors.margins: root.s(3)
-            color: ThemeBackend.base
-            radius: ThemeBackend.borderRadius
-
-            ScrollView {
-                anchors.fill: parent
-                anchors.margins: root.s(16)
-                clip: true
-                Text {
-                    width: parent.width
-                    text: root.currentLyrics || "Tidak ada lirik."
-                    color: root.dynamicTextColor
-                    font.pixelSize: root.s(15)
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
+                    ListView {
+                        id: lyricsList
+                        anchors.fill: parent
+                        spacing: root.s(22)
+                        model: lyricsModel
+                        
+                        property real currentTime: (root.targetPlayer && root.targetPlayer.isPlaying) ? (root.targetPlayer.position / 1000000.0) : 0
+                        
+                        delegate: Text {
+                            width: ListView.view.width
+                            text: model.text
+                            wrapMode: Text.WordWrap
+                            horizontalAlignment: Text.AlignHCenter
+                            font.pixelSize: isCurrent ? root.s(22) : root.s(18)
+                            font.bold: isCurrent
+                            
+                            property bool isCurrent: {
+                                if (lyricsModel.count === 0) return false;
+                                let t = lyricsList.currentTime;
+                                if (t < model.time) return false;
+                                if (index + 1 < lyricsModel.count) {
+                                    if (t >= lyricsModel.get(index + 1).time) return false;
+                                }
+                                return true;
+                            }
+                            
+                            color: isCurrent ? "#ffffff" : (ThemeBackend.subtext0 || "#a6adc8")
+                            opacity: isCurrent ? 1.0 : 0.4
+                            
+                            Behavior on color { ColorAnimation { duration: 300 } }
+                            Behavior on opacity { NumberAnimation { duration: 300 } }
+                            
+                            onIsCurrentChanged: {
+                                if (isCurrent && index > 0) {
+                                    lyricsList.positionViewAtIndex(index, ListView.Center)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
