@@ -1,0 +1,54 @@
+{
+  "general": {
+    "language": "en",
+    "location": {
+      "ip": "103.162.220.238",
+      "latitude": -7.5682,
+      "longitude": 111.4407,
+      "city": "Madiun",
+      "region": "East Java",
+      "region_code": "JI",
+      "country_name": "Indonesia",
+      "country_code": "ID",
+      "postal": "63137",
+      "timezone": "Asia/Jakarta",
+      "utc_offset": null,
+      "currency": "IDR",
+      "languages": null,
+      "asn": "AS139952 PT Trisari Data Indonusa",
+      "org": "",
+      "source": "ip-api.com",
+      "updated_at": 1789736297
+    }
+  },
+  "notifications": {
+    "dnd": false,
+    "position": "top right",
+    "horizontalPosition": 88,
+    "verticalPosition": 15,
+    "sound": true,
+    "soundFile": "/nix/store/gfjg9zw5pdqqhlkv3hyqjjw3xjjnbqsn-serpantinum-2.1.7/share/serpantinum/assets/sounds/notifications/Botanica.wav",
+    "showEmptyGraphic": true
+  },
+  "dock": {
+    "enabled": true,
+    "position": "bottom",
+    "onTop": true,
+    "elementSize": 44,
+    "floating": false,
+    "opacity": 100,
+    "exclusive": false,
+    "autohide": false,
+    "smartAutohide": true,
+    "autohideTimeout": 1000,
+    "editing": false,
+    "apps": [],
+    "overrideBoundsCorrection": false,
+    "enableScrolling": false,
+    "visibleElements": 7,
+    "hoverScale": 120,
+    "cascadeScale": false
+  },
+  "wallpaperDir": "/home/focarix/Pictures/Wallpapers"
+}
+

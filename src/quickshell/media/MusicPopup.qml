@@ -45,6 +45,7 @@ Item {
             resetAndPlayIntro();
             Cava.registerConsumer();
             if (!eqProc.running) eqProc.running = true;
+            root.triggerLyricsFetch();
             if (titleTextMain.implicitWidth > titleClipRect.width) {
                 marqueeContainer.x = 0;
                 titleAnim.restart();
@@ -181,18 +182,21 @@ Item {
         function onPostTrackChanged() {
             if (root.targetPlayer) root.currentLivePosition = root.targetPlayer.position;
             root.triggerLocalArtFetch();
+            root.triggerLyricsFetch();
         }
         function onTrackArtUrlChanged() {
             root.triggerLocalArtFetch();
         }
         function onTrackTitleChanged() {
             root.triggerLocalArtFetch();
+            root.triggerLyricsFetch();
         }
     }
 
     onTargetPlayerChanged: {
         if (targetPlayer) currentLivePosition = targetPlayer.position;
         triggerLocalArtFetch();
+        triggerLyricsFetch();
     }
 
     Timer {
@@ -215,6 +219,28 @@ Item {
     property string localTextColor: ""
     property string localDeviceIcon: "󰓃"
     property string localDeviceName: "Speaker"
+
+    property string currentLyrics: "Mencari lirik..."
+    Process {
+        id: lyricsFetcher
+        command: ["python3", "/home/focarix/.config/serpantinum/src/scripts/get_lyrics.py"]
+        running: false
+        stdout: StdioCollector {
+            onStreamFinished: {
+                let txt = this.text.trim();
+                if (txt !== "") root.currentLyrics = txt;
+                else root.currentLyrics = "Lirik tidak ditemukan.";
+            }
+        }
+    }
+
+    function triggerLyricsFetch() {
+        lyricsFetcher.running = false;
+        root.currentLyrics = "Mencari lirik...";
+        if (root.hasTargetPlayer) {
+            lyricsFetcher.running = true;
+        }
+    }
 
     Process {
         id: customArtFetchProc
@@ -460,7 +486,10 @@ Item {
 
     Item {
         id: mainWrapper
-        anchors.fill: parent
+        width: root.s(960)
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
         
         scale: 0.92 + (0.08 * root.introMain)
         opacity: root.introMain
@@ -1754,6 +1783,41 @@ Item {
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+
+    // --- LYRICS SECTION ---
+    Item {
+        id: lyricsWrapper
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.left: mainWrapper.right
+        anchors.leftMargin: root.s(5)
+
+        opacity: root.introMain
+        scale: 0.92 + (0.08 * root.introMain)
+        transform: Translate { y: root.s(12) * (1 - root.introMain) }
+
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: root.s(3)
+            color: ThemeBackend.base
+            radius: ThemeBackend.borderRadius
+
+            ScrollView {
+                anchors.fill: parent
+                anchors.margins: root.s(16)
+                clip: true
+                Text {
+                    width: parent.width
+                    text: root.currentLyrics || "Tidak ada lirik."
+                    color: root.dynamicTextColor
+                    font.pixelSize: root.s(15)
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignHCenter
                 }
             }
         }
