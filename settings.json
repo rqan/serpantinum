@@ -26,7 +26,8 @@
     "screenshotCaptureOnRelease": true,
     "quickactions": true,
     "weatherInterval": 15,
-    "weatherUnit": "metric"
+    "weatherUnit": "metric",
+    "desktopLyrics": true
   },
   "notifications": {
     "dnd": false,

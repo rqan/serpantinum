@@ -2,7 +2,8 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
-import "../utils"
+import "../singletons/system"
+import "../"
 
 PanelWindow {
     id: root
@@ -14,7 +15,7 @@ PanelWindow {
     }
     color: "transparent"
     WlrLayershell.layer: WlrLayer.Background
-    WlrLayershell.exclusionMode: WlrLayer.Ignore
+    exclusionMode: ExclusionMode.Ignore
 
     property bool enabled: Config.getSetting("general", {}).desktopLyrics === true
     property string currentLyric: ""
@@ -30,7 +31,7 @@ PanelWindow {
 
     Process {
         id: lyricProc
-        command: ["python3", Caching.qsDir + "/scripts/lyrics_tracker.py"]
+        command: ["python3", "/home/focarix/.config/serpantinum/src/scripts/lyrics_tracker.py"]
         running: false
         stdout: StdioCollector {
             onStreamFinished: {
