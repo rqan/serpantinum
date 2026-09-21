@@ -45,22 +45,34 @@ PanelWindow {
 
     Text {
         id: lyricText
+        property real currentX: root.width / 2 - width / 2
+        property real currentY: root.height / 2 - height / 2
+
+        x: currentX
+        y: currentY
         text: root.currentLyric
-        anchors.centerIn: parent
-        anchors.verticalCenterOffset: 100
         color: "#ffffff"
         font.family: "Inter"
         font.pixelSize: 48
         font.bold: true
-        style: Text.Outline
-        styleColor: "#000000"
-        opacity: text === "" ? 0 : 1
+        opacity: text === "" ? 0 : 0.6
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
-        width: root.width * 0.8
+        width: Math.min(contentWidth, root.width * 0.8)
 
         Behavior on opacity {
             NumberAnimation { duration: 500; easing.type: Easing.InOutQuad }
+        }
+
+        onTextChanged: {
+            if (text !== "") {
+                let curW = Math.min(contentWidth, root.width * 0.8);
+                let curH = contentHeight;
+                let maxX = Math.max(0, root.width - curW - 100);
+                let maxY = Math.max(0, root.height - curH - 100);
+                currentX = 50 + Math.random() * maxX;
+                currentY = 50 + Math.random() * maxY;
+            }
         }
     }
 }

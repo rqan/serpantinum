@@ -27,7 +27,7 @@
     "quickactions": true,
     "weatherInterval": 15,
     "weatherUnit": "metric",
-    "desktopLyrics": true
+    "desktopLyrics": false
   },
   "notifications": {
     "dnd": false,
