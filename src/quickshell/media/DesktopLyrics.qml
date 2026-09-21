@@ -14,7 +14,7 @@ PanelWindow {
         right: true
     }
     color: "transparent"
-    WlrLayershell.layer: WlrLayer.Background
+    WlrLayershell.layer: WlrLayer.Bottom
     exclusionMode: ExclusionMode.Ignore
 
     property bool enabled: Config.getSetting("general", {}).desktopLyrics === true
