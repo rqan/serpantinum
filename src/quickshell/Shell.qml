@@ -13,6 +13,7 @@ ShellRoot {
     }
 
     ScreenshotOverlay {}
+    DesktopLyrics {}
     Main {}
     Bar {}
     Lock {}
