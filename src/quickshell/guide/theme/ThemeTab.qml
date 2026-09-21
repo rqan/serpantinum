@@ -1509,8 +1509,10 @@ Item {
 
                     Switch {
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        checked: Config.getSetting("general", {}).desktopLyrics === true
-                        onCheckedChanged: {
+                        options: ["Off", "On"]
+                        currentIndex: Config.getSetting("general", {}).desktopLyrics === true ? 1 : 0
+                        onValueChanged: (index, value) => {
+                            let checked = (index === 1);
                             let s = Config.getSetting("general", {});
                             s.desktopLyrics = checked;
                             Config.setSetting("general", s);
