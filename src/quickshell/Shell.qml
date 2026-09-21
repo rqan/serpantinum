@@ -14,7 +14,7 @@ ShellRoot {
     }
 
     ScreenshotOverlay {}
-    DesktopLyrics {}
+    // DesktopLyrics {}
     Main {}
     Bar {}
     Lock {}
