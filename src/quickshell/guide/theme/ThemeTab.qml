@@ -1507,7 +1507,7 @@ Item {
                         Text { Layout.fillWidth: true; text: "Tampilkan lirik mengambang yang tersinkronisasi di desktop"; font.family: ThemeBackend.fontFamily; font.pixelSize: rootObj.s(11); color: ThemeBackend.subtext0 }
                     }
 
-                    CustomSwitch {
+                    Switch {
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         checked: Config.getSetting("general", {}).desktopLyrics === true
                         onCheckedChanged: {
