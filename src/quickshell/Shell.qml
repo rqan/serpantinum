@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell
+import "media"
 
 ShellRoot {
     readonly property bool performanceMode: !!(Config.getSetting("general", {}).performance)
