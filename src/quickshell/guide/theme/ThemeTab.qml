@@ -1043,6 +1043,142 @@ Item {
                     }
                 }
             }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        implicitHeight: rowSddmSync.implicitHeight + rootObj.s(24)
+                        radius: ThemeBackend.borderRadius
+                        color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                        border.width: 0
+
+                        RowLayout {
+                            id: rowSddmSync
+                            anchors.left: parent.left
+                            anchors.leftMargin: rootObj.s(14)
+                            anchors.right: parent.right
+                            anchors.rightMargin: rootObj.s(14)
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: rootObj.s(12)
+
+                            IconButton {
+                                enabled: false
+                                size: rootObj.s(32)
+                                cornerRadius: ThemeBackend.borderRadius
+                                buttonIcon: "󰤆"
+                                iconFontSize: rootObj.s(16)
+                                accentColor: ThemeBackend.surface0
+                                textColor: "#ffffff"
+                            }
+
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignVCenter
+                                spacing: rootObj.s(2)
+
+                                Text {
+                                    Layout.fillWidth: true
+                                    text: "Sync SDDM Wallpaper"
+                                    font.family: ThemeBackend.fontFamily
+                                    font.pixelSize: rootObj.s(13)
+                                    color: ThemeBackend.text
+                                }
+
+                                Text {
+                                    Layout.fillWidth: true
+                                    text: "Synchronize login screen background with main wallpaper"
+                                    font.family: ThemeBackend.fontFamily
+                                    font.pixelSize: rootObj.s(11)
+                                    color: ThemeBackend.subtext0
+                                }
+                            }
+
+                            Toggle {
+                                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                checked: themeTabRoot.themeSettings.sddmSync !== undefined ? themeTabRoot.themeSettings.sddmSync : false
+                                accentColor: ThemeBackend.mauve
+                                baseColor: ThemeBackend.surface1
+                                handleColor: ThemeBackend.crust
+                                handleOffColor: ThemeBackend.text
+                                onToggled: function(c) {
+                                    let ts = themeTabRoot.themeSettings;
+                                    ts.sddmSync = c;
+                                    Config.saveSetting("theme", ts);
+                                    themeTabRoot.themeSettings = ts;
+                                    if (c) {
+                                        let currentWall = Wallpaper.getWallpaperPath("");
+                                        if (currentWall) {
+                                            Quickshell.execDetached(["bash", "-c", "cp '" + currentWall + "' /var/lib/sddm-wallpaper/current.jpg 2>/dev/null || true"]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        implicitHeight: rowSddmWall.implicitHeight + rootObj.s(24)
+                        radius: ThemeBackend.borderRadius
+                        color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                        border.width: 0
+                        visible: !(themeTabRoot.themeSettings.sddmSync !== undefined ? themeTabRoot.themeSettings.sddmSync : false)
+
+                        RowLayout {
+                            id: rowSddmWall
+                            anchors.left: parent.left
+                            anchors.leftMargin: rootObj.s(14)
+                            anchors.right: parent.right
+                            anchors.rightMargin: rootObj.s(14)
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: rootObj.s(12)
+
+                            IconButton {
+                                enabled: false
+                                size: rootObj.s(32)
+                                cornerRadius: ThemeBackend.borderRadius
+                                buttonIcon: "󰸉"
+                                iconFontSize: rootObj.s(16)
+                                accentColor: ThemeBackend.surface0
+                                textColor: "#ffffff"
+                            }
+
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignVCenter
+                                spacing: rootObj.s(2)
+
+                                Text {
+                                    Layout.fillWidth: true
+                                    text: "SDDM Wallpaper Image"
+                                    font.family: ThemeBackend.fontFamily
+                                    font.pixelSize: rootObj.s(13)
+                                    color: ThemeBackend.text
+                                }
+
+                                Text {
+                                    Layout.fillWidth: true
+                                    text: "Custom background image for SDDM"
+                                    font.family: ThemeBackend.fontFamily
+                                    font.pixelSize: rootObj.s(11)
+                                    color: ThemeBackend.subtext0
+                                }
+                            }
+
+                            ClickButton {
+                                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                implicitHeight: rootObj.s(32)
+                                buttonText: "Select Image"
+                                buttonIcon: "󰉋"
+                                accentColor: ThemeBackend.mauve
+                                textColor: ThemeBackend.crust
+                                cornerRadius: ThemeBackend.borderRadius
+                                horizontalPadding: rootObj.s(14)
+                                iconFontSize: rootObj.s(15)
+                                textFontSize: rootObj.s(11)
+                                onTriggered: sddmImagePicker.openPicker(themeTabRoot.themeSettings.sddmWallpaper || "")
+                            }
+                        }
+                    }
+
 
             Rectangle {
                 Layout.fillWidth: true
