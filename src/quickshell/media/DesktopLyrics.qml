@@ -3,6 +3,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import "../singletons/system"
+import "../singletons/theme"
 import "../"
 
 PanelWindow {
@@ -52,13 +53,15 @@ PanelWindow {
         y: currentY
         text: root.currentLyric
         color: "#ffffff"
-        font.family: "Inter"
-        font.pixelSize: 48
-        font.bold: true
-        opacity: text === "" ? 0 : 0.6
+        font.family: "Georgia, serif"
+        font.pixelSize: 52
+        font.weight: Font.Black
+        opacity: text === "" ? 0 : 0.85
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
-        width: Math.min(contentWidth, root.width * 0.8)
+        maximumLineCount: 2
+        elide: Text.ElideRight
+        width: Math.min(implicitWidth, root.width * 0.8)
 
         Behavior on opacity {
             NumberAnimation { duration: 500; easing.type: Easing.InOutQuad }
@@ -66,8 +69,8 @@ PanelWindow {
 
         onTextChanged: {
             if (text !== "") {
-                let curW = Math.min(contentWidth, root.width * 0.8);
-                let curH = contentHeight;
+                let curW = Math.min(implicitWidth, root.width * 0.8);
+                let curH = implicitHeight;
                 let maxX = Math.max(0, root.width - curW - 100);
                 let maxY = Math.max(0, root.height - curH - 100);
                 currentX = 50 + Math.random() * maxX;
