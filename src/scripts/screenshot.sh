@@ -31,6 +31,10 @@ while [[ "$#" -gt 0 ]]; do
     esac
 done
 
+if [ "$GEOMETRY" = "0,0 0x0" ]; then
+    GEOMETRY=""
+fi
+
 export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
 SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 source "$SCRIPT_DIR/caching.sh"
