@@ -20,7 +20,7 @@
       "source": "ipapi.co",
       "updated_at": 1789915172
     },
-    "avatarPath": "",
+    "avatarPath": "/home/focarix/Pictures/Profile Pictures/The Fallen Angel.jpg",
     "muteSfx": false,
     "sfxVolume": 100,
     "screenshotCaptureOnRelease": true,
@@ -50,7 +50,14 @@
     "smartAutohide": true,
     "autohideTimeout": 1000,
     "editing": false,
-    "apps": [],
+    "apps": [
+      {
+        "name": "Spotify",
+        "comment": "",
+        "desktop_id": "spotify",
+        "icon": "spotify-client"
+      }
+    ],
     "overrideBoundsCorrection": false,
     "enableScrolling": false,
     "visibleElements": 7,
@@ -67,7 +74,7 @@
     }
   },
   "theme": {
-    "fontFamily": "Unifont CSUR [GNU ]",
+    "fontFamily": "JetBrainsMono Nerd Font",
     "borderRadius": 8,
     "activePreset": "Matugen",
     "matugen": true,

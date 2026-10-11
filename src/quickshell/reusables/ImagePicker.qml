@@ -8,7 +8,7 @@ FilePicker {
     width: Scaler.s(1180)
     previewWidth: Scaler.s(440)
     titleText: typeof I18n !== "undefined" ? I18n.t("guide.file_picker.title") : "Choose image"
-    nameFilters: ["*.png", "*.jpg", "*.jpeg", "*.webp", "*.svg", "*.gif"]
+    nameFilters: ["*.png", "*.jpg", "*.jpeg", "*.webp", "*.svg", "*.gif", "*.mp4"]
     showPreview: true
     
     places: [

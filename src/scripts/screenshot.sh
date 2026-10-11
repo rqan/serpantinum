@@ -36,6 +36,8 @@ if [ "$GEOMETRY" = "0,0 0x0" ]; then
 fi
 
 export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+# Pastikan ~/.local/bin masuk PATH agar gpu-screen-recorder/wf-recorder ditemukan
+export PATH="$HOME/.local/bin:$PATH"
 SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 source "$SCRIPT_DIR/caching.sh"
 source "$SCRIPT_DIR/i18n.sh"
@@ -308,6 +310,17 @@ if [ "$FULL_MODE" = true ] || [ -n "$GEOMETRY" ]; then
             gpu-screen-recorder "${GSR_ARGS[@]}" -o "$VID_FILENAME" > /dev/null 2>&1 &
             REC_PID=$!
         fi
+
+        # Verifikasi proses recorder benar-benar berjalan (bukan langsung exit karena error)
+        sleep 0.5
+        if ! kill -0 "$REC_PID" 2>/dev/null; then
+            notif_app="$(t "screenshot.notifications.recorder_app_name")"
+            notif_title="$(t "screenshot.notifications.recording_error_title")"
+            notif_body="Recorder gagal start. Pastikan gpu-screen-recorder atau wf-recorder terinstall."
+            notify-send -u critical -a "$notif_app" "$notif_title" "$notif_body"
+            exit 1
+        fi
+
         date +%s > "$CACHE_DIR/rec_start_epoch"
         echo "$VID_FILENAME" > "$CACHE_DIR/final_file"
         echo "$REC_PID" > "$CACHE_DIR/rec_pid"

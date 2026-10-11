@@ -1106,7 +1106,7 @@ Item {
                                     if (c) {
                                         let currentWall = Wallpaper.getWallpaperPath("");
                                         if (currentWall) {
-                                            Quickshell.execDetached(["bash", "-c", "cp '" + currentWall + "' /var/lib/sddm-wallpaper/current.jpg 2>/dev/null || true"]);
+                                            Quickshell.execDetached(["bash", "-c", "mkdir -p /var/lib/sddm-wallpaper && cp '" + currentWall + "' /var/lib/sddm-wallpaper/current_wallpaper 2>/dev/null; if [[ '" + currentWall + "' =~ \\.(mp4|webm|mkv|mov|avi)$ ]]; then echo 'video' > /var/lib/sddm-wallpaper/wallpaper_type; else echo 'image' > /var/lib/sddm-wallpaper/wallpaper_type; fi"]);
                                         }
                                     }
                                 }
@@ -1148,7 +1148,7 @@ Item {
 
                                 Text {
                                     Layout.fillWidth: true
-                                    text: "SDDM Wallpaper Image"
+                                    text: "SDDM Wallpaper (Image/Video)"
                                     font.family: ThemeBackend.fontFamily
                                     font.pixelSize: rootObj.s(13)
                                     color: ThemeBackend.text
@@ -1156,7 +1156,7 @@ Item {
 
                                 Text {
                                     Layout.fillWidth: true
-                                    text: "Custom background image for SDDM"
+                                    text: "Custom background image or video for SDDM"
                                     font.family: ThemeBackend.fontFamily
                                     font.pixelSize: rootObj.s(11)
                                     color: ThemeBackend.subtext0
@@ -1166,7 +1166,7 @@ Item {
                             ClickButton {
                                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                                 implicitHeight: rootObj.s(32)
-                                buttonText: "Select Image"
+                                buttonText: "Select Image/Video"
                                 buttonIcon: "󰉋"
                                 accentColor: ThemeBackend.mauve
                                 textColor: ThemeBackend.crust
@@ -1630,6 +1630,19 @@ Item {
                         }
                     }
                 }
+            }
+        }
+    }
+    ImagePicker {
+        id: sddmImagePicker
+        rootObj: themeTabRoot.rootObj
+        onImageSelected: function(filePath, fileName) {
+            if (filePath && filePath.trim() !== "") {
+                let ts = themeTabRoot.themeSettings;
+                ts.sddmWallpaper = filePath;
+                Config.saveSetting("theme", ts);
+                themeTabRoot.themeSettings = ts;
+                Quickshell.execDetached(["bash", "-c", "mkdir -p /var/lib/sddm-wallpaper && cp '" + filePath + "' /var/lib/sddm-wallpaper/current_wallpaper 2>/dev/null; if [[ '" + filePath + "' =~ \\.(mp4|webm|mkv|mov|avi)$ ]]; then echo 'video' > /var/lib/sddm-wallpaper/wallpaper_type; else echo 'image' > /var/lib/sddm-wallpaper/wallpaper_type; fi"]);
             }
         }
     }
