@@ -152,8 +152,9 @@ Rectangle {
                 fillMode: Image.PreserveAspectFit
 
                 sourceSize: Qt.size(sideTrayWidgetRoot.iconSize, sideTrayWidgetRoot.iconSize)
-                width: sideTrayWidgetRoot.iconSize
+                width: status === Image.Ready ? sideTrayWidgetRoot.iconSize : 0
                 height: sideTrayWidgetRoot.iconSize
+                visible: status === Image.Ready
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 property bool isHovered: trayMouse.containsMouse

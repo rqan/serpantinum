@@ -146,8 +146,9 @@ Rectangle {
                 fillMode: Image.PreserveAspectFit
 
                 sourceSize: Qt.size(trayWidgetRoot.iconSize, trayWidgetRoot.iconSize)
-                width: trayWidgetRoot.iconSize
+                width: status === Image.Ready ? trayWidgetRoot.iconSize : 0
                 height: trayWidgetRoot.iconSize
+                visible: status === Image.Ready
                 anchors.verticalCenter: parent.verticalCenter
 
                 property bool isHovered: trayMouse.containsMouse
