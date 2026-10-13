@@ -650,11 +650,11 @@ PanelWindow {
                                 anchors.left: parent.left
                                 anchors.leftMargin: trayMenuWindow.s(8)
                                 anchors.verticalCenter: parent.verticalCenter
-                                width: (modelData && modelData.icon && modelData.icon !== "") ? trayMenuWindow.s(16) : 0
+                                width: (modelData && modelData.icon && modelData.icon !== "" && itemIcon.status === Image.Ready) ? trayMenuWindow.s(16) : 0
                                 height: trayMenuWindow.s(16)
                                 source: (modelData && modelData.icon) ? modelData.icon : ""
                                 sourceSize: Qt.size(trayMenuWindow.s(16), trayMenuWindow.s(16))
-                                visible: width > 0
+                                visible: width > 0 && itemIcon.status === Image.Ready
                             }
 
                             Text {
@@ -1000,11 +1000,11 @@ PanelWindow {
                                     anchors.left: parent.left
                                     anchors.leftMargin: trayMenuWindow.s(8)
                                     anchors.verticalCenter: parent.verticalCenter
-                                    width: (modelData && modelData.icon && modelData.icon !== "") ? trayMenuWindow.s(16) : 0
+                                    width: (modelData && modelData.icon && modelData.icon !== "" && subItemIcon.status === Image.Ready) ? trayMenuWindow.s(16) : 0
                                     height: trayMenuWindow.s(16)
                                     source: (modelData && modelData.icon) ? modelData.icon : ""
                                     sourceSize: Qt.size(trayMenuWindow.s(16), trayMenuWindow.s(16))
-                                    visible: width > 0
+                                    visible: width > 0 && subItemIcon.status === Image.Ready
                                 }
 
                                 Text {

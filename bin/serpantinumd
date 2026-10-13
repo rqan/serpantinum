@@ -6,6 +6,9 @@ BIN_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 if [ -z "$SERPANTINUM_DIR" ]; then
     export SERPANTINUM_DIR="$(dirname "$BIN_DIR")/src"
 fi
+if [ -z "$QS_ICON_THEME" ]; then
+    export QS_ICON_THEME="WhiteSur"
+fi
 
 source "$SERPANTINUM_DIR/scripts/caching.sh"
 source "$SERPANTINUM_DIR/scripts/config.sh"
