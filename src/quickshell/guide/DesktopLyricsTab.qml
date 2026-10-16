@@ -780,7 +780,8 @@ Item {
                         ClickButton {
                             Layout.alignment: Qt.AlignVCenter
                             implicitHeight: rootObj.s(32)
-                            implicitWidth: rootObj.s(70)
+                            implicitWidth: rootObj.s(82)
+                            maxWidth: rootObj.s(100)
                             cornerRadius: ThemeBackend.borderRadius
                             buttonText: "Italic"
                             buttonIcon: "󰰑"

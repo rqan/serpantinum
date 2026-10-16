@@ -536,6 +536,48 @@
     "position": {
       "custom": "Custom"
     },
+    "desktop_lyrics": {
+      "enabled": {
+        "title": "Enable desktop lyrics",
+        "desc": "Display floating synchronized lyrics on the desktop"
+      },
+      "mode": {
+        "title": "Positioning mode",
+        "desc": "Choose between random layout and draggable cursor (Rainmeter style)"
+      },
+      "font": {
+        "title": "Font family",
+        "desc": "Select the typography for desktop lyrics"
+      },
+      "fontsize": {
+        "title": "Font size",
+        "desc": "Adjust lyrics text size in pixels (20px - 100px)"
+      },
+      "weight": {
+        "title": "Font weight",
+        "desc": "Choose text boldness and styling"
+      },
+      "color": {
+        "title": "Lyrics color",
+        "desc": "Choose a color preset or enter custom HEX code"
+      },
+      "opacity": {
+        "title": "Lyrics opacity",
+        "desc": "Adjust background and text transparency level"
+      },
+      "shadow": {
+        "title": "Text outline & shadow",
+        "desc": "Improve readability against bright or patterned wallpapers"
+      },
+      "alignment": {
+        "title": "Paragraph alignment",
+        "desc": "Align lyrics to left, center, or right"
+      },
+      "maxlines": {
+        "title": "Maximum lines",
+        "desc": "Limit number of lyric lines before wrapping or truncation"
+      }
+    },
     "dock": {
       "enabled": {
         "title": "Enable dock",
