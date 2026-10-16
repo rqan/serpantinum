@@ -60,6 +60,7 @@ Item {
         },
         { id: "Launcher", key: "launcher", name: "Launcher", icon: "󰵆", file: "LauncherTab.qml", iconOffsetX: 0 },
         { id: "Dock", key: "dock", name: "Dock", icon: "󰮯", file: "DockTab.qml", iconOffsetX: 0 },
+        { id: "Desktop Lyrics", key: "desktop_lyrics", name: "Desktop Lyrics", icon: "󰝚", file: "DesktopLyricsTab.qml", iconOffsetX: 0 },
         { id: "On-Screen Display", key: "osd", name: "On-Screen Display", icon: "󰕾", file: "OnScreenDisplayTab.qml", iconOffsetX: 0 },
         { id: "Notifications", key: "notifications", name: "Notifications", icon: "󰂚", file: "notifications/NotificationsTab.qml", iconOffsetX: 0 },
         { id: "Wellbeing", key: "wellbeing", name: "Wellbeing", icon: "󰄉", file: "wellbeing/DigitalWellbeingTab.qml", iconOffsetX: 0 },        
@@ -497,6 +498,7 @@ Item {
                                 tabBar,
                                 tabLauncher,
                                 tabDock,
+                                tabDesktopLyrics,
                                 tabOsd,
                                 tabNotifications,
                                 tabWellbeing,
@@ -1448,7 +1450,7 @@ Item {
                             }
 
                             Rectangle {
-                                id: tabOsd
+                                id: tabDesktopLyrics
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: root.s(44)
                                 implicitHeight: root.s(44)
@@ -1459,6 +1461,75 @@ Item {
                                 transform: Translate { x: root.s(-24) * (1.0 - root.getTabProgress(7)) }
 
                                 property bool isDirectActive: root.currentTab === 7
+
+                                color: tabDesktopLyricsMa.containsMouse && !isDirectActive ? Qt.alpha(ThemeBackend.surface1, 0.5) : "transparent"
+                                Behavior on color { ColorAnimation { duration: 150 } }
+
+                                scale: tabDesktopLyricsMa.pressed ? 0.98 : 1.0
+                                Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
+
+                                RowLayout {
+                                    anchors.fill: parent
+                                    anchors.leftMargin: root.s(10) + (tabDesktopLyrics.isDirectActive ? root.s(4) : 0)
+                                    anchors.rightMargin: root.s(14)
+                                    spacing: root.s(10)
+
+                                    Behavior on anchors.leftMargin { NumberAnimation { duration: 400; easing.type: Easing.OutQuint } }
+
+                                    IconButton {
+                                        enabled: false
+                                        size: root.s(32)
+                                        Layout.preferredWidth: root.s(32)
+                                        Layout.preferredHeight: root.s(32)
+                                        Layout.alignment: Qt.AlignVCenter
+                                        cornerRadius: ThemeBackend.borderRadius
+                                        buttonIcon: "󰝚"
+                                        iconOffsetX: root.tabsModel[7].iconOffsetX ?? 0
+                                        iconFontSize: root.s(16)
+                                        accentColor: ThemeBackend.surface0
+                                        textColor: "#ffffff"
+                                    }
+
+                                    Text {
+                                        text: I18n.t("guide.tabs.desktop_lyrics", "Desktop Lyrics")
+                                        font.family: ThemeBackend.fontFamily
+                                        font.weight: tabDesktopLyrics.isDirectActive ? Font.Bold : Font.Medium
+                                        font.pixelSize: root.s(13)
+                                        color: tabDesktopLyrics.isDirectActive 
+                                            ? ThemeBackend.crust 
+                                            : (tabDesktopLyricsMa.containsMouse ? ThemeBackend.text : ThemeBackend.subtext0)
+                                        Layout.fillWidth: true
+                                        Layout.alignment: Qt.AlignVCenter
+                                        elide: Text.ElideRight
+                                        Behavior on color { ColorAnimation { duration: 150 } }
+                                    }
+                                }
+
+                                MouseArea {
+                                    id: tabDesktopLyricsMa
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: {
+                                        root.expandedTab = -1;
+                                        root.currentTab = 7;
+                                        root.currentSubTab = 0;
+                                    }
+                                }
+                            }
+
+                            Rectangle {
+                                id: tabOsd
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: root.s(44)
+                                implicitHeight: root.s(44)
+                                radius: ThemeBackend.borderRadius
+                                z: 1
+
+                                opacity: root.getTabOpacity(8)
+                                transform: Translate { x: root.s(-24) * (1.0 - root.getTabProgress(8)) }
+
+                                property bool isDirectActive: root.currentTab === 8
 
                                 color: tabOsdMa.containsMouse && !isDirectActive ? Qt.alpha(ThemeBackend.surface1, 0.5) : "transparent"
                                 Behavior on color { ColorAnimation { duration: 150 } }
@@ -1482,7 +1553,7 @@ Item {
                                         Layout.alignment: Qt.AlignVCenter
                                         cornerRadius: ThemeBackend.borderRadius
                                         buttonIcon: "󰕾"
-                                        iconOffsetX: root.tabsModel[7].iconOffsetX ?? 0
+                                        iconOffsetX: root.tabsModel[8].iconOffsetX ?? 0
                                         iconFontSize: root.s(16)
                                         accentColor: ThemeBackend.surface0
                                         textColor: "#ffffff"
@@ -1510,7 +1581,7 @@ Item {
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
                                         root.expandedTab = -1;
-                                        root.currentTab = 7;
+                                        root.currentTab = 8;
                                         root.currentSubTab = 0;
                                     }
                                 }
@@ -1524,10 +1595,10 @@ Item {
                                 radius: ThemeBackend.borderRadius
                                 z: 1
 
-                                opacity: root.getTabOpacity(8)
-                                transform: Translate { x: root.s(-24) * (1.0 - root.getTabProgress(8)) }
+                                opacity: root.getTabOpacity(9)
+                                transform: Translate { x: root.s(-24) * (1.0 - root.getTabProgress(9)) }
 
-                                property bool isDirectActive: root.currentTab === 8
+                                property bool isDirectActive: root.currentTab === 9
 
                                 color: tabNotificationsMa.containsMouse && !isDirectActive ? Qt.alpha(ThemeBackend.surface1, 0.5) : "transparent"
                                 Behavior on color { ColorAnimation { duration: 150 } }
@@ -1551,7 +1622,7 @@ Item {
                                         Layout.alignment: Qt.AlignVCenter
                                         cornerRadius: ThemeBackend.borderRadius
                                         buttonIcon: "󰂚"
-                                        iconOffsetX: root.tabsModel[8].iconOffsetX ?? 0
+                                        iconOffsetX: root.tabsModel[9].iconOffsetX ?? 0
                                         iconFontSize: root.s(16)
                                         accentColor: ThemeBackend.surface0
                                         textColor: "#ffffff"
@@ -1579,7 +1650,7 @@ Item {
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
                                         root.expandedTab = -1;
-                                        root.currentTab = 8;
+                                        root.currentTab = 9;
                                         root.currentSubTab = 0;
                                     }
                                 }
@@ -1593,10 +1664,10 @@ Item {
                                 radius: ThemeBackend.borderRadius
                                 z: 1
 
-                                opacity: root.getTabOpacity(9)
-                                transform: Translate { x: root.s(-24) * (1.0 - root.getTabProgress(9)) }
+                                opacity: root.getTabOpacity(10)
+                                transform: Translate { x: root.s(-24) * (1.0 - root.getTabProgress(10)) }
 
-                                property bool isDirectActive: root.currentTab === 9
+                                property bool isDirectActive: root.currentTab === 10
 
                                 color: tabWellbeingMa.containsMouse && !isDirectActive ? Qt.alpha(ThemeBackend.surface1, 0.5) : "transparent"
                                 Behavior on color { ColorAnimation { duration: 150 } }
@@ -1620,7 +1691,7 @@ Item {
                                         Layout.alignment: Qt.AlignVCenter
                                         cornerRadius: ThemeBackend.borderRadius
                                         buttonIcon: "󰄉"
-                                        iconOffsetX: root.tabsModel[9].iconOffsetX ?? 0
+                                        iconOffsetX: root.tabsModel[10].iconOffsetX ?? 0
                                         iconFontSize: root.s(16)
                                         accentColor: ThemeBackend.surface0
                                         textColor: "#ffffff"
@@ -1648,7 +1719,7 @@ Item {
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
                                         root.expandedTab = -1;
-                                        root.currentTab = 9;
+                                        root.currentTab = 10;
                                         root.currentSubTab = 0;
                                     }
                                 }
@@ -1662,10 +1733,10 @@ Item {
                                 radius: ThemeBackend.borderRadius
                                 z: 1
 
-                                opacity: root.getTabOpacity(10)
-                                transform: Translate { x: root.s(-24) * (1.0 - root.getTabProgress(10)) }
+                                opacity: root.getTabOpacity(11)
+                                transform: Translate { x: root.s(-24) * (1.0 - root.getTabProgress(11)) }
 
-                                property bool isDirectActive: root.currentTab === 10
+                                property bool isDirectActive: root.currentTab === 11
 
                                 color: tabIdleMa.containsMouse && !isDirectActive ? Qt.alpha(ThemeBackend.surface1, 0.5) : "transparent"
                                 Behavior on color { ColorAnimation { duration: 150 } }
@@ -1689,7 +1760,7 @@ Item {
                                         Layout.alignment: Qt.AlignVCenter
                                         cornerRadius: ThemeBackend.borderRadius
                                         buttonIcon: "󰒲"
-                                        iconOffsetX: root.tabsModel[10].iconOffsetX ?? 0
+                                        iconOffsetX: root.tabsModel[11].iconOffsetX ?? 0
                                         iconFontSize: root.s(16)
                                         accentColor: ThemeBackend.surface0
                                         textColor: "#ffffff"
@@ -1717,7 +1788,7 @@ Item {
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
                                         root.expandedTab = -1;
-                                        root.currentTab = 10;
+                                        root.currentTab = 11;
                                         root.currentSubTab = 0;
                                     }
                                 }
@@ -1731,10 +1802,10 @@ Item {
                                 radius: ThemeBackend.borderRadius
                                 z: 1
 
-                                opacity: root.getTabOpacity(11)
-                                transform: Translate { x: root.s(-24) * (1.0 - root.getTabProgress(11)) }
+                                opacity: root.getTabOpacity(12)
+                                transform: Translate { x: root.s(-24) * (1.0 - root.getTabProgress(12)) }
 
-                                property bool isDirectActive: root.currentTab === 11
+                                property bool isDirectActive: root.currentTab === 12
 
                                 color: tabAboutMa.containsMouse && !isDirectActive ? Qt.alpha(ThemeBackend.surface1, 0.5) : "transparent"
                                 Behavior on color { ColorAnimation { duration: 150 } }
@@ -1758,7 +1829,7 @@ Item {
                                         Layout.alignment: Qt.AlignVCenter
                                         cornerRadius: ThemeBackend.borderRadius
                                         buttonIcon: ""
-                                        iconOffsetX: root.tabsModel[11].iconOffsetX ?? 0
+                                        iconOffsetX: root.tabsModel[12].iconOffsetX ?? 0
                                         iconFontSize: root.s(16)
                                         accentColor: ThemeBackend.surface0
                                         textColor: "#ffffff"
@@ -1786,7 +1857,7 @@ Item {
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
                                         root.expandedTab = -1;
-                                        root.currentTab = 11;
+                                        root.currentTab = 12;
                                         root.currentSubTab = 0;
                                     }
                                 }
@@ -1805,8 +1876,8 @@ Item {
                         textFontSize: root.s(13)
                         accentColor: ThemeBackend.green
                         textColor: ThemeBackend.crust
-                        opacity: root.getTabOpacity(12)
-                        transform: Translate { x: root.s(-24) * (1.0 - root.getTabProgress(12)) }
+                        opacity: root.getTabOpacity(13)
+                        transform: Translate { x: root.s(-24) * (1.0 - root.getTabProgress(13)) }
                         onClicked: {
                             root.gotoTab("about");
                         }

@@ -1507,15 +1507,35 @@ Item {
                         Text { Layout.fillWidth: true; text: "Tampilkan lirik mengambang yang tersinkronisasi di desktop"; font.family: ThemeBackend.fontFamily; font.pixelSize: rootObj.s(11); color: ThemeBackend.subtext0 }
                     }
 
+                    ClickButton {
+                        Layout.alignment: Qt.AlignVCenter
+                        implicitHeight: rootObj.s(32)
+                        cornerRadius: ThemeBackend.borderRadius
+                        buttonText: "Atur"
+                        buttonIcon: "󰒓"
+                        iconFontSize: rootObj.s(12)
+                        textFontSize: rootObj.s(11)
+                        accentColor: ThemeBackend.surface1
+                        textColor: ThemeBackend.text
+                        onClicked: {
+                            rootObj.gotoTab("desktop_lyrics");
+                        }
+                    }
+
                     Switch {
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         options: ["Off", "On"]
-                        currentIndex: Config.getSetting("general", {}).desktopLyrics === true ? 1 : 0
+                        currentIndex: (Config.getSetting("desktopLyrics", {}).enabled !== undefined 
+                            ? Config.getSetting("desktopLyrics", {}).enabled === true 
+                            : Config.getSetting("general", {}).desktopLyrics === true) ? 1 : 0
                         onValueChanged: (index, value) => {
                             let checked = (index === 1);
-                            let s = Config.getSetting("general", {});
-                            s.desktopLyrics = checked;
-                            Config.setSetting("general", s);
+                            let gen = Config.getSetting("general", {});
+                            gen.desktopLyrics = checked;
+                            Config.setSetting("general", gen);
+                            let dl = Config.getSetting("desktopLyrics", {});
+                            dl.enabled = checked;
+                            Config.setSetting("desktopLyrics", dl);
                             Config.save();
                         }
                     }
